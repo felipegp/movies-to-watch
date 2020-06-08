@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:movies_to_watch/domain/entities/movies.dart';
+import 'package:movies_to_watch/domain/entities/movies_type.dart';
+import 'package:movies_to_watch/presentation/view_models/home_view_model.dart';
 import 'package:movies_to_watch/presentation/widgets/header/header.dart';
 import 'package:movies_to_watch/presentation/widgets/movies_grid/movies_grid.dart';
 
+import '../../config/injection_container.dart';
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key key, this.title}) : super(key: key);
 
@@ -13,13 +16,21 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  // final HomeViewModel homeViewModel = HomeViewModel();
+  final HomeViewModel homeViewModel = getIt<HomeViewModel>();
   Future<Movies> futureMovies;
-
+  
   void _headerClickHandler(String buttonType) {
-    print(buttonType);
-    // futureMovies = homeViewModel.getMoviesByType(MovieListType.POPULAR);
-    // setState(() {});
+    MovieListType movieListType = MovieListType.values.firstWhere((e) => e.toString() == 'MovieListType.' + buttonType.toUpperCase());
+
+    setState(() {
+      futureMovies = homeViewModel.getMoviesByType(movieListType);      
+    });
+  }
+
+  @override
+  void initState() { 
+    super.initState();
+    futureMovies = homeViewModel.getMoviesByType(MovieListType.UPCOMING);
   }
 
   @override

@@ -9,16 +9,23 @@ class MoviesGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GridView.count(
-      primary: false,
-      padding: const EdgeInsets.all(16),
-      crossAxisSpacing: 10,
-      mainAxisSpacing: 10,
-      crossAxisCount: 3,
-      children: <Widget>[
-        ...movies.map(
-          (movie) => MovieCard(movie: movie, clickHandler: null,)).toList()
-      ],
+    return Expanded(
+      child: GridView.count(
+        primary: false,
+        padding: const EdgeInsets.all(16),
+        crossAxisSpacing: 10,
+        mainAxisSpacing: 10,
+        crossAxisCount: 3,
+        scrollDirection: Axis.vertical,
+        children: <Widget>[
+          ...movies
+              .map((movie) => MovieCard(
+                    movie: movie,
+                    clickHandler: null,
+                  ))
+              .toList()
+        ],
+      ),
     );
   }
 }

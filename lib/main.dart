@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:movies_to_watch/presentation/pages/home_page.dart';
+import 'config/injection_container.dart' as di;
 
 void main() {
+  di.init();
   runApp(MyApp());
 }
 
@@ -15,7 +17,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
+      home: MyHomePage(title: 'Movies to Watch'),
     );
   }
 }

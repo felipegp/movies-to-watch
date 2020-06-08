@@ -12,9 +12,7 @@ class MoviesGatewayRest implements MoviesRepository {
   @override
   Future<Movies> getMovies(MovieListType movieListType) async {
     final response = await http.get(
-        'https://api.themoviedb.org/3/movie/popular?api_key=' + API_KEY + '&language=en-US&page=1');
-
-    print('retornou get movies');
+        'https://api.themoviedb.org/3/movie/' + movieListType.name.toLowerCase() + '?api_key=' + API_KEY + '&language=en-US&page=1');
 
     if (response.statusCode == 200) {
       return Movies.fromJson(json.decode(response.body));

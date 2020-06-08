@@ -1,11 +1,8 @@
-enum MovieListType {
-  UPCOMING,
-  POPULAR
-}
+enum MovieListType { UPCOMING, POPULAR }
 
 extension MovieListTypeExtension on MovieListType {
   String get name {
-        switch (this) {
+    switch (this) {
       case MovieListType.UPCOMING:
         return 'Upcoming';
       case MovieListType.POPULAR:
