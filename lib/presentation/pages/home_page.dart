@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:movies_to_watch/domain/entities/movies.dart';
 import 'package:movies_to_watch/domain/entities/movies_type.dart';
+import 'package:movies_to_watch/presentation/pages/movie_details_page.dart';
 import 'package:movies_to_watch/presentation/view_models/home_view_model.dart';
 import 'package:movies_to_watch/presentation/widgets/header/header.dart';
 import 'package:movies_to_watch/presentation/widgets/movies_grid/movies_grid.dart';
@@ -27,6 +28,13 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
+  void _openMovieDetails(int movieId) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => MovieDetailsPage(movieId))
+    );
+  }
+
   @override
   void initState() { 
     super.initState();
@@ -46,7 +54,7 @@ class _MyHomePageState extends State<MyHomePage> {
               future: futureMovies,
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
-                  return MoviesGrid(snapshot.data.movies);
+                  return MoviesGrid(movies: snapshot.data.movies, movieClickhandler: _openMovieDetails);
                 } else if (snapshot.hasError) {
                   return Text("${snapshot.error}");
                 }

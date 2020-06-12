@@ -4,8 +4,9 @@ import 'package:movies_to_watch/presentation/widgets/movies_grid/movie_card.dart
 
 class MoviesGrid extends StatelessWidget {
   final List<Movie> movies;
+  final Function movieClickhandler;
 
-  MoviesGrid(this.movies);
+  MoviesGrid({ this.movies, this.movieClickhandler });
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +22,7 @@ class MoviesGrid extends StatelessWidget {
           ...movies
               .map((movie) => MovieCard(
                     movie: movie,
-                    clickHandler: null,
+                    clickHandler: movieClickhandler,
                   ))
               .toList()
         ],

@@ -5,12 +5,13 @@ class MovieCard extends StatelessWidget {
   final Movie movie;
   final Function clickHandler;
 
-  MovieCard({ this.movie, this.clickHandler });
+  MovieCard({this.movie, this.clickHandler});
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Text(movie.title, style: TextStyle(fontSize: 16.0)),
-    );
+    return GestureDetector(
+      onTap: () => clickHandler(movie.id),
+      child: Container(
+        child: Text(movie.title, style: TextStyle(fontSize: 16.0))));
   }
 }
