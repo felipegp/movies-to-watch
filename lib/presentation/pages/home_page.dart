@@ -5,12 +5,13 @@ import 'package:movies_to_watch/presentation/pages/movie_details_page.dart';
 import 'package:movies_to_watch/presentation/view_models/home_view_model.dart';
 import 'package:movies_to_watch/presentation/widgets/header/header.dart';
 import 'package:movies_to_watch/presentation/widgets/movies_grid/movies_grid.dart';
+import 'package:movies_to_watch/shred/variables.dart';
 
 import '../../config/injection_container.dart';
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
-
   final String title;
+
+  MyHomePage({Key key, this.title}) : super(key: key);
 
   @override
   _MyHomePageState createState() => _MyHomePageState();
@@ -19,12 +20,13 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   final HomeViewModel homeViewModel = getIt<HomeViewModel>();
   Future<Movies> futureMovies;
+  MovieListType movieListType = MovieListType.UPCOMING;
   
   void _headerClickHandler(String buttonType) {
-    MovieListType movieListType = MovieListType.values.firstWhere((e) => e.toString() == 'MovieListType.' + buttonType.toUpperCase());
+    movieListType = MovieListType.values.firstWhere((e) => e.toString() == 'MovieListType.' + buttonType.toUpperCase());
 
     setState(() {
-      futureMovies = homeViewModel.getMoviesByType(movieListType);      
+      futureMovies = homeViewModel.getMoviesByType(movieListType);
     });
   }
 
@@ -38,7 +40,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() { 
     super.initState();
-    futureMovies = homeViewModel.getMoviesByType(MovieListType.UPCOMING);
+    futureMovies = homeViewModel.getMoviesByType(movieListType);
   }
 
   @override
@@ -47,23 +49,26 @@ class _MyHomePageState extends State<MyHomePage> {
         appBar: AppBar(
           title: Text(widget.title),
         ),
-        body: Column(
-          children: <Widget>[
-            Header(_headerClickHandler),
-            FutureBuilder<Movies>(
-              future: futureMovies,
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  return MoviesGrid(movies: snapshot.data.movies, movieClickhandler: _openMovieDetails);
-                } else if (snapshot.hasError) {
-                  return Text("${snapshot.error}");
-                }
+        body: Container(
+          // color: Variables.primary,
+          color: Colors.black87,
+          child: Column(
+            children: <Widget>[
+              Header(buttonClickHandler: _headerClickHandler, movieListType: movieListType),
+              FutureBuilder<Movies>(
+                future: futureMovies,
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    return MoviesGrid(movies: snapshot.data.movies, movieClickhandler: _openMovieDetails);
+                  } else if (snapshot.hasError) {
+                    return Text("${snapshot.error}");
+                  }
 
-                // By default, show a loading spinner.
-                return CircularProgressIndicator();
-              },
-            )
-          ],
+                  return CircularProgressIndicator();
+                },
+              )
+            ],
+          ),
         ));
   }
 }

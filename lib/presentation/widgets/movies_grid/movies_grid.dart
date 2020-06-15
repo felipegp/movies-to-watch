@@ -13,10 +13,11 @@ class MoviesGrid extends StatelessWidget {
     return Expanded(
       child: GridView.count(
         primary: false,
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.all(4),
         crossAxisSpacing: 10,
         mainAxisSpacing: 10,
         crossAxisCount: 3,
+        childAspectRatio: 0.6,
         scrollDirection: Axis.vertical,
         children: <Widget>[
           ...movies
